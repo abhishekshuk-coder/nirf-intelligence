@@ -73,8 +73,8 @@ export default function TLRPage() {
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
               <Info size={16} className="text-blue-500 shrink-0 mt-0.5" />
               <p className="text-xs text-blue-700">
-                <span className="font-semibold">Data Source:</span> Values pre-filled from Shoolini Engineering NIRF 2026 PDF submission [IR-E-U-0190].
-                Financial data is for academic year 2024-25. Edit any value to recalculate score.
+                <span className="font-semibold">Data Source:</span> Values pre-filled from your NIRF submission.
+                Financial data is for the latest academic year. Edit any value to recalculate score.
               </p>
             </div>
 

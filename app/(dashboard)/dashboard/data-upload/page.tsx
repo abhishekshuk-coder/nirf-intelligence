@@ -8,6 +8,12 @@ import { Upload, Download, FileSpreadsheet, CheckCircle, AlertTriangle, X, Arrow
 const TEMPLATE_ROWS = [
   ["SECTION", "FIELD", "DESCRIPTION", "UNIT", "EXAMPLE VALUE"],
   ["", "", "", "", ""],
+  ["INST", "institution_name", "Full institution name", "Text", "Your University Name"],
+  ["INST", "short_name", "Short display name", "Text", "Your University"],
+  ["INST", "nirf_code", "NIRF Institution Code", "Text", "IR-X-U-0000"],
+  ["INST", "category", "NIRF Category", "Text", "Engineering"],
+  ["INST", "location", "City, State", "Text", "City, State"],
+  ["", "", "", "", ""],
   ["TLR", "total_faculty", "Total regular + contractual faculty", "Count", "75"],
   ["TLR", "phd_faculty", "Faculty with PhD qualification", "Count", "64"],
   ["TLR", "avg_experience_months", "Average teaching experience", "Months", "150"],
@@ -79,6 +85,7 @@ function downloadTemplate() {
 }
 
 type ParsedData = {
+  inst: Record<string, string>;
   tlr: Record<string, string>;
   rpc: Record<string, string>;
   go: Record<string, string>;
@@ -87,7 +94,7 @@ type ParsedData = {
 };
 
 function parseCSV(text: string): ParsedData {
-  const result: ParsedData = { tlr: {}, rpc: {}, go: {}, oi: {}, pr: {} };
+  const result: ParsedData = { inst: {}, tlr: {}, rpc: {}, go: {}, oi: {}, pr: {} };
   const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
   for (const line of lines) {
     const cols = line.split(",").map((c) => c.replace(/"/g, "").trim());
@@ -96,7 +103,8 @@ function parseCSV(text: string): ParsedData {
     const field = cols[1];
     const value = cols[4];
     if (!field || !value || section === "SECTION") continue;
-    if (section === "TLR") result.tlr[field] = value;
+    if (section === "INST") result.inst[field] = value;
+    else if (section === "TLR") result.tlr[field] = value;
     else if (section === "RPC") result.rpc[field] = value;
     else if (section === "GO") result.go[field] = value;
     else if (section === "OI") result.oi[field] = value;
@@ -116,7 +124,7 @@ function yn(v: string | undefined): boolean {
 }
 
 export default function DataUploadPage() {
-  const { data, updateTLR, updateRPC, updateGO, updateOI, updatePR } = useNIRFData();
+  const { data, updateInstitution, updateTLR, updateRPC, updateGO, updateOI, updatePR } = useNIRFData();
   const [parsed, setParsed] = useState<ParsedData | null>(null);
   const [fileName, setFileName] = useState("");
   const [applied, setApplied] = useState(false);
@@ -149,6 +157,17 @@ export default function DataUploadPage() {
 
   function applyData() {
     if (!parsed) return;
+    const inst = parsed.inst;
+    if (inst.institution_name || inst.short_name || inst.nirf_code) {
+      updateInstitution({
+        name: inst.institution_name || data.institution.name,
+        shortName: inst.short_name || inst.institution_name || data.institution.shortName,
+        code: inst.nirf_code || data.institution.code,
+        category: inst.category || data.institution.category,
+        cycle: "NIRF 2026",
+        location: inst.location || data.institution.location,
+      });
+    }
     const t = parsed.tlr;
     updateTLR({
       totalFaculty: num(t.total_faculty, data.tlr.totalFaculty),

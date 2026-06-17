@@ -68,7 +68,7 @@ export default function LandingPage() {
           <div className="flex-1 w-full max-w-md">
             <div className="rounded-xl overflow-hidden" style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
               <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-                <span className="text-[11px] font-semibold text-white/70">Shoolini University · Dashboard</span>
+                <span className="text-[11px] font-semibold text-white/70">University Dashboard · Preview</span>
                 <span className="text-[9px] font-semibold text-emerald-400 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" /> Live
                 </span>
@@ -275,7 +275,7 @@ export default function LandingPage() {
             </div>
             <span className="text-xs text-slate-500">NIRF Intelligence Platform</span>
           </div>
-          <span className="text-[10px] text-slate-600">Shoolini University · IR-E-U-0190 · Solan, HP</span>
+          <span className="text-[10px] text-slate-600">Universal NIRF Analytics · Any Institution</span>
           <div className="flex gap-5 text-[11px] text-slate-600">
             {["Privacy", "Terms", "Contact"].map((l) => (
               <a key={l} href="#" className="hover:text-slate-400">{l}</a>

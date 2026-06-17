@@ -81,9 +81,9 @@ export default function OIPage() {
             <div className="bg-green-50 border border-green-100 rounded-xl p-4 flex items-start gap-3">
               <Info size={16} className="text-green-600 shrink-0 mt-0.5" />
               <p className="text-xs text-green-700">
-                <span className="font-semibold">Excellent OI performance!</span> Shoolini Engineering has 43.4% women students
-                and 56.9% students from outside state. These are well above NIRF targets.
-                This data is pre-filled from the NIRF 2026 PDF submission.
+                <span className="font-semibold">Excellent OI performance!</span> Your institution shows strong diversity metrics
+                that are well above NIRF targets.
+                This data is pre-filled from your NIRF submission.
               </p>
             </div>
 

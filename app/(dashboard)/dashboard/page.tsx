@@ -8,11 +8,11 @@ import {
 } from "recharts";
 import { useNIRFData } from "@/hooks/useNIRFData";
 import { Header } from "@/components/dashboard/header";
-import { HISTORICAL_RANKINGS, BENCHMARKS, PLACEMENT_HISTORY, PATENT_HISTORY, INSTITUTION } from "@/lib/shoolini-data";
+import { HISTORICAL_RANKINGS, BENCHMARKS, PLACEMENT_HISTORY, PATENT_HISTORY } from "@/lib/shoolini-data";
 import { ArrowRight, AlertTriangle, TrendingUp, Trophy, Target, Users, FlaskConical } from "lucide-react";
 
 export default function DashboardPage() {
-  const { scores, data, isLoaded } = useNIRFData();
+  const { scores, data, institution, isLoaded } = useNIRFData();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -40,7 +40,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "#F1F5F9" }}>
-      <Header title="Executive Dashboard" subtitle={`${INSTITUTION.shortName} · Engineering [${INSTITUTION.code}]`} />
+      <Header title="Executive Dashboard" subtitle={`${institution.shortName} · ${institution.category} [${institution.code}]`} />
 
       <main className="flex-1 p-6 space-y-5">
 
@@ -175,7 +175,7 @@ export default function DashboardPage() {
                 <PolarGrid stroke="#E2E8F0" />
                 <PolarAngleAxis dataKey="p" tick={{ fontSize: 11, fill: "#475569", fontWeight: 700 }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar name="Shoolini" dataKey="val" stroke="#1E40AF" fill="#1E40AF" fillOpacity={0.15} strokeWidth={2} dot={{ r: 3, fill: "#1E40AF" }} />
+                <Radar name="Yours" dataKey="val" stroke="#1E40AF" fill="#1E40AF" fillOpacity={0.15} strokeWidth={2} dot={{ r: 3, fill: "#1E40AF" }} />
                 <Radar name="Manipal" dataKey="bench" stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.05} strokeWidth={1.5} strokeDasharray="4 4" />
                 <Legend wrapperStyle={{ fontSize: 10 }} />
               </RadarChart>

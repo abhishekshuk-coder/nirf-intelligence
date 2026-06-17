@@ -70,7 +70,7 @@ export default function PRPage() {
                   PR scores come from NIRF's perception surveys of academic peers, employers, and alumni.
                   The scores below are your estimates for planning. The actual score is determined by survey respondents,
                   not by the university. Use this to understand your likely PR range and what to improve.
-                  Current values are estimated based on Shoolini University's national profile.
+                  Current values are estimated based on your institution's national profile.
                 </p>
               </div>
             </div>

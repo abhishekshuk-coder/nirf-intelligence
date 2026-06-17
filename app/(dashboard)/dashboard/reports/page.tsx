@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Header } from "@/components/dashboard/header";
 import { useNIRFData } from "@/hooks/useNIRFData";
-import { INSTITUTION } from "@/lib/shoolini-data";
 import { FileText, Download, Eye } from "lucide-react";
 
 const REPORTS = [
@@ -15,7 +14,7 @@ const REPORTS = [
 ];
 
 export default function ReportsPage() {
-  const { scores, data } = useNIRFData();
+  const { scores, data, institution } = useNIRFData();
   const [generated, setGenerated] = useState<Set<string>>(new Set());
   const [generating, setGenerating] = useState<string | null>(null);
   const nirf = scores ?? { tlr: 0, rpc: 0, go: 0, oi: 0, pr: 0, total: 0, estimatedRank: 999, completeness: 0 };
@@ -29,7 +28,7 @@ export default function ReportsPage() {
   }
 
   function downloadReport(id: string, title: string) {
-    const content = `NIRF ANALYTICS REPORT\n=======================\n${INSTITUTION.name}\nGenerated: ${new Date().toLocaleDateString()}\n\nTotal Score: ${nirf.total.toFixed(1)}/100 | Rank #${nirf.estimatedRank}\nTLR: ${nirf.tlr.toFixed(1)}/30 | RPC: ${nirf.rpc.toFixed(1)}/30 | GO: ${nirf.go.toFixed(1)}/20 | OI: ${nirf.oi.toFixed(1)}/10 | PR: ${nirf.pr.toFixed(1)}/10\n\nReport: ${title}`;
+    const content = `NIRF ANALYTICS REPORT\n=======================\n${institution.name}\nGenerated: ${new Date().toLocaleDateString()}\n\nTotal Score: ${nirf.total.toFixed(1)}/100 | Rank #${nirf.estimatedRank}\nTLR: ${nirf.tlr.toFixed(1)}/30 | RPC: ${nirf.rpc.toFixed(1)}/30 | GO: ${nirf.go.toFixed(1)}/20 | OI: ${nirf.oi.toFixed(1)}/10 | PR: ${nirf.pr.toFixed(1)}/10\n\nReport: ${title}`;
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -41,14 +40,14 @@ export default function ReportsPage() {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "#F1F5F9" }}>
-      <Header title="Reports" subtitle={`Generate NIRF reports for ${INSTITUTION.shortName}`} />
+      <Header title="Reports" subtitle={`Generate NIRF reports for ${institution.shortName}`} />
 
       <main className="flex-1 p-6 space-y-5">
         {/* Header Card */}
         <div className="rounded-xl p-5 flex items-center justify-between" style={{ background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)" }}>
           <div>
-            <p className="text-blue-200 text-xs">{INSTITUTION.code}</p>
-            <p className="font-bold text-lg text-white">{INSTITUTION.shortName}</p>
+            <p className="text-blue-200 text-xs">{institution.code}</p>
+            <p className="font-bold text-lg text-white">{institution.shortName}</p>
             <p className="text-blue-200 text-sm mt-1">
               Score: <span className="text-white font-bold">{nirf.total.toFixed(1)}/100</span> · Rank: <span className="text-yellow-300 font-bold">#{nirf.estimatedRank}</span>
             </p>

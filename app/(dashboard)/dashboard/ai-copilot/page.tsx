@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Header } from "@/components/dashboard/header";
 import { useNIRFData } from "@/hooks/useNIRFData";
-import { INSTITUTION } from "@/lib/shoolini-data";
 import { Send, Bot, User } from "lucide-react";
 
 interface Message { role: "user" | "assistant"; content: string; time: string }
@@ -50,11 +49,11 @@ function getAIResponse(query: string, scores: { tlr: number; rpc: number; go: nu
 }
 
 export default function AICopilotPage() {
-  const { scores } = useNIRFData();
+  const { scores, institution } = useNIRFData();
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: `Hello! I'm your NIRF Copilot for **${INSTITUTION.shortName}**. Ask me about your scores, gaps, or how to improve your ranking.`,
+      content: `Hello! I'm your NIRF Copilot for **${institution.shortName}**. Ask me about your scores, gaps, or how to improve your ranking.`,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
@@ -85,7 +84,7 @@ export default function AICopilotPage() {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "#F1F5F9" }}>
-      <Header title="AI Copilot" subtitle={`NIRF Analytics Assistant · ${INSTITUTION.shortName}`} />
+      <Header title="AI Copilot" subtitle={`NIRF Analytics Assistant · ${institution.shortName}`} />
 
       <main className="flex-1 p-6 flex flex-col overflow-hidden">
         <div className="flex-1 bg-white rounded-xl border border-slate-100 flex flex-col overflow-hidden">

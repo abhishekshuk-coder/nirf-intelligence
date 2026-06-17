@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useNIRFData } from "@/hooks/useNIRFData";
 import {
   LayoutDashboard, BarChart3, TrendingUp, GitCompare, Target,
   Map, MessageSquareText, FileText, Bell, BookOpen,
@@ -49,6 +50,8 @@ const navSections = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { institution, scores } = useNIRFData();
+  const rank = scores?.estimatedRank ?? "—";
 
   return (
     <aside className="fixed left-0 top-0 h-full flex flex-col z-40"
@@ -67,16 +70,16 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* ── University Card ── */}
+      {/* ── Institution Card (dynamic) ── */}
       <div className="mx-4 mb-4 p-3.5 rounded-xl" style={{ background: "rgba(37, 99, 235, 0.1)", border: "1px solid rgba(37, 99, 235, 0.15)" }}>
         <div className="flex items-center gap-2 mb-1.5">
           <Shield size={12} className="text-blue-400" />
-          <p className="text-[11px] font-bold text-blue-300 truncate">Shoolini University</p>
+          <p className="text-[11px] font-bold text-blue-300 truncate">{institution.shortName}</p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-[10px] text-slate-500">Rank</span>
-          <span className="text-base font-black text-white">#47</span>
-          <span className="text-[9px] font-bold bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full">↑14</span>
+          <span className="text-base font-black text-white">#{rank}</span>
+          <span className="text-[9px] text-slate-500">{institution.code}</span>
         </div>
       </div>
 

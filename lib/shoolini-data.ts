@@ -1,16 +1,26 @@
-// Real NIRF 2026 Data — Shoolini University of Biotechnology and Management Sciences
-// Engineering Department [IR-E-U-0190]
-// Source: NIRF 2026 Submission Data (Engineering.pdf)
+// NIRF Intelligence Platform — Universal Data Model
+// Works with any institution. Data is loaded via CSV upload or manual entry.
 
-export const INSTITUTION = {
-  name: "Shoolini University of Biotechnology and Management Sciences",
-  shortName: "Shoolini University",
-  code: "IR-E-U-0190",
+export interface InstitutionInfo {
+  name: string;
+  shortName: string;
+  code: string;
+  category: string;
+  cycle: string;
+  location: string;
+}
+
+export const DEFAULT_INSTITUTION: InstitutionInfo = {
+  name: "Your University",
+  shortName: "Your University",
+  code: "IR-X-U-0000",
   category: "Engineering",
   cycle: "NIRF 2026",
-  location: "Solan, Himachal Pradesh",
-  established: 2009,
+  location: "",
 };
+
+// Kept for backward compat — pages can import this but it reads from localStorage
+export const INSTITUTION = DEFAULT_INSTITUTION;
 
 export interface TLRFormData {
   // Faculty (currently working)
@@ -87,6 +97,7 @@ export interface PRFormData {
 }
 
 export interface NIRFAllData {
+  institution: InstitutionInfo;
   tlr: TLRFormData;
   rpc: RPCFormData;
   go: GOFormData;
@@ -95,78 +106,40 @@ export interface NIRFAllData {
   lastUpdated: string;
 }
 
-// ── Default values from PDF ──────────────────────────────────────────────────
+// ── Default values (blank slate — user uploads their own data) ───────────────
 
 export const DEFAULT_TLR: TLRFormData = {
-  totalFaculty: 75,
-  phdFaculty: 64,
-  avgExperienceMonths: 150,   // ~12.5 years avg
-  ugStudents: 1299,
-  pgStudents: 53,
-  phdStudents: 103,
-  libraryExpenditure: 4260000,   // ₹42.6 Lakhs
-  labExpenditure: 27255000,      // ₹241.68L + ₹30.87L = ₹272.55L
-  salaries: 92559000,            // ₹9.26 Cr
-  maintenance: 72639000,         // ₹7.26 Cr
-  seminars: 1132000,             // ₹11.32 Lakhs
-  capitalOther: 385000,          // ₹3.85 Lakhs
+  totalFaculty: 0, phdFaculty: 0, avgExperienceMonths: 0,
+  ugStudents: 0, pgStudents: 0, phdStudents: 0,
+  libraryExpenditure: 0, labExpenditure: 0, salaries: 0,
+  maintenance: 0, seminars: 0, capitalOther: 0,
 };
 
 export const DEFAULT_RPC: RPCFormData = {
-  scopusPapers: 0,     // NOT in PDF — must be entered
-  wosPapers: 0,        // NOT in PDF — must be entered
-  citations: 0,        // NOT in PDF — must be entered
-  hIndex: 0,           // NOT in PDF — must be entered
-  patentsPublished: 81,
-  patentsGranted: 43,
-  sponsoredProjects: 9,
-  sponsoredAmount: 22620378, // 3-year average: (5093977 + 60636522 + 2131035) / 3 = 22620511 ≈ 22620378
-  consultancyProjects: 0,
-  consultancyRevenue: 0,
+  scopusPapers: 0, wosPapers: 0, citations: 0, hIndex: 0,
+  patentsPublished: 0, patentsGranted: 0,
+  sponsoredProjects: 0, sponsoredAmount: 0,
+  consultancyProjects: 0, consultancyRevenue: 0,
 };
 
 export const DEFAULT_GO: GOFormData = {
-  ugGraduating: 178,
-  ugPlaced: 127,
-  ugHigherStudies: 27,
-  ugSelfEmployed: 0,
-  ugMedianSalary: 500000,    // ₹5 Lakhs
-  pgGraduating: 35,
-  pgPlaced: 30,
-  pgHigherStudies: 1,
-  pgMedianSalary: 500000,    // ₹5 Lakhs
-  phdGraduated: 34,
+  ugGraduating: 0, ugPlaced: 0, ugHigherStudies: 0, ugSelfEmployed: 0, ugMedianSalary: 0,
+  pgGraduating: 0, pgPlaced: 0, pgHigherStudies: 0, pgMedianSalary: 0, phdGraduated: 0,
 };
 
 export const DEFAULT_OI: OIFormData = {
-  totalStudents: 1352,       // UG + PG
-  womenStudents: 587,
-  withinStateStudents: 583,
-  outsideStateStudents: 735,
-  internationalStudents: 34,
-  ewsStudents: 46,
-  scStudents: 140,           // approximated from SC+ST+OBC = 291
-  stStudents: 50,
-  obcStudents: 101,
-  physicallyDisabled: 5,
-  pcsLiftsRamps: true,
-  pcsWheelchairs: true,
-  pcsToilets: true,
+  totalStudents: 0, womenStudents: 0, withinStateStudents: 0, outsideStateStudents: 0,
+  internationalStudents: 0, ewsStudents: 0, scStudents: 0, stStudents: 0, obcStudents: 0,
+  physicallyDisabled: 0, pcsLiftsRamps: false, pcsWheelchairs: false, pcsToilets: false,
 };
 
 export const DEFAULT_PR: PRFormData = {
-  academicReputation: 62,
-  employerReputation: 58,
-  alumniEngagement: 52,
-  mediaVisibility: 48,
+  academicReputation: 0, employerReputation: 0, alumniEngagement: 0, mediaVisibility: 0,
 };
 
 export const DEFAULT_NIRF_DATA: NIRFAllData = {
-  tlr: DEFAULT_TLR,
-  rpc: DEFAULT_RPC,
-  go: DEFAULT_GO,
-  oi: DEFAULT_OI,
-  pr: DEFAULT_PR,
+  institution: DEFAULT_INSTITUTION,
+  tlr: DEFAULT_TLR, rpc: DEFAULT_RPC, go: DEFAULT_GO, oi: DEFAULT_OI, pr: DEFAULT_PR,
   lastUpdated: new Date().toISOString(),
 };
 

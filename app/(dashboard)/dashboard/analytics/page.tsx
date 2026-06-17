@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/dashboard/header";
 import { useNIRFData } from "@/hooks/useNIRFData";
-import { HISTORICAL_RANKINGS, PLACEMENT_HISTORY, RESEARCH_HISTORY, INSTITUTION } from "@/lib/shoolini-data";
+import { HISTORICAL_RANKINGS, PLACEMENT_HISTORY, RESEARCH_HISTORY } from "@/lib/shoolini-data";
 import {
   AreaChart, Area, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -10,7 +10,7 @@ import {
 import { TrendingUp, TrendingDown, Activity } from "lucide-react";
 
 export default function AnalyticsPage() {
-  const { scores, isLoaded } = useNIRFData();
+  const { scores, institution, isLoaded } = useNIRFData();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -48,7 +48,7 @@ export default function AnalyticsPage() {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "#F1F5F9" }}>
-      <Header title="Analytics" subtitle={`Deep-dive analysis · ${INSTITUTION.shortName} · Engineering`} />
+      <Header title="Analytics" subtitle={`Deep-dive analysis · ${institution.shortName} · Engineering`} />
 
       <main className="flex-1 p-6 space-y-5">
         {/* Summary KPIs */}

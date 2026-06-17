@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Header } from "@/components/dashboard/header";
 import { useNIRFData } from "@/hooks/useNIRFData";
-import { BENCHMARKS, INSTITUTION } from "@/lib/shoolini-data";
+import { BENCHMARKS } from "@/lib/shoolini-data";
 import { Badge } from "@/components/ui/badge";
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
@@ -11,7 +11,7 @@ import {
 import { Trophy } from "lucide-react";
 
 export default function BenchmarkingPage() {
-  const { scores, isLoaded } = useNIRFData();
+  const { scores, institution, isLoaded } = useNIRFData();
   const [selected, setSelected] = useState(BENCHMARKS[3].name);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -20,15 +20,15 @@ export default function BenchmarkingPage() {
   const bench = BENCHMARKS.find((b) => b.name === selected) ?? BENCHMARKS[3];
 
   const radarData = [
-    { param: "TLR", Shoolini: +(nirf.tlr / 30 * 100).toFixed(1), [bench.name]: +(bench.tlr / 30 * 100).toFixed(1) },
-    { param: "RPC", Shoolini: +(nirf.rpc / 30 * 100).toFixed(1), [bench.name]: +(bench.rpc / 30 * 100).toFixed(1) },
-    { param: "GO",  Shoolini: +(nirf.go / 20 * 100).toFixed(1),  [bench.name]: +(bench.go / 20 * 100).toFixed(1) },
-    { param: "OI",  Shoolini: +(nirf.oi / 10 * 100).toFixed(1),  [bench.name]: +(bench.oi / 10 * 100).toFixed(1) },
-    { param: "PR",  Shoolini: +(nirf.pr / 10 * 100).toFixed(1),  [bench.name]: +(bench.pr / 10 * 100).toFixed(1) },
+    { param: "TLR", Yours: +(nirf.tlr / 30 * 100).toFixed(1), [bench.name]: +(bench.tlr / 30 * 100).toFixed(1) },
+    { param: "RPC", Yours: +(nirf.rpc / 30 * 100).toFixed(1), [bench.name]: +(bench.rpc / 30 * 100).toFixed(1) },
+    { param: "GO",  Yours: +(nirf.go / 20 * 100).toFixed(1),  [bench.name]: +(bench.go / 20 * 100).toFixed(1) },
+    { param: "OI",  Yours: +(nirf.oi / 10 * 100).toFixed(1),  [bench.name]: +(bench.oi / 10 * 100).toFixed(1) },
+    { param: "PR",  Yours: +(nirf.pr / 10 * 100).toFixed(1),  [bench.name]: +(bench.pr / 10 * 100).toFixed(1) },
   ];
 
   const allData = [
-    { name: INSTITUTION.shortName, rank: nirf.estimatedRank, tlr: +nirf.tlr.toFixed(1), rpc: +nirf.rpc.toFixed(1), go: +nirf.go.toFixed(1), oi: +nirf.oi.toFixed(1), pr: +nirf.pr.toFixed(1), total: +nirf.total.toFixed(1), isUs: true },
+    { name: institution.shortName, rank: nirf.estimatedRank, tlr: +nirf.tlr.toFixed(1), rpc: +nirf.rpc.toFixed(1), go: +nirf.go.toFixed(1), oi: +nirf.oi.toFixed(1), pr: +nirf.pr.toFixed(1), total: +nirf.total.toFixed(1), isUs: true },
     ...BENCHMARKS.map((b) => ({ ...b, isUs: false })),
   ].sort((a, b) => a.rank - b.rank);
 
@@ -36,7 +36,7 @@ export default function BenchmarkingPage() {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: "#F1F5F9" }}>
-      <Header title="Benchmarking" subtitle="Compare Shoolini Engineering vs peer institutions" />
+      <Header title="Benchmarking" subtitle="Compare your institution vs peers" />
 
       <main className="flex-1 p-6 space-y-5">
         {/* Institution Selector */}
@@ -67,7 +67,7 @@ export default function BenchmarkingPage() {
               <PolarGrid stroke="#e2e8f0" />
               <PolarAngleAxis dataKey="param" tick={{ fontSize: 12 }} />
               <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} />
-              <Radar name="Shoolini" dataKey="Shoolini" stroke="#2563EB" fill="#2563EB" fillOpacity={0.25} strokeWidth={2} />
+              <Radar name="Yours" dataKey="Yours" stroke="#2563EB" fill="#2563EB" fillOpacity={0.25} strokeWidth={2} />
               <Radar name={bench.name} dataKey={bench.name} stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.1} strokeWidth={2} strokeDasharray="5 5" />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Tooltip formatter={(v: unknown) => typeof v === "number" ? v.toFixed(1) : ""} />
