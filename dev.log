@@ -1,0 +1,17 @@
+
+> nirf-platform@0.1.0 dev
+> next dev --port 3003
+
+▲ Next.js 16.2.7 (Turbopack)
+- Local:         http://localhost:3003
+- Network:       http://172.16.7.112:3003
+✓ Ready in 602ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3002
+- PID:          16148
+- Dir:          C:\xampp\htdocs\nirf-platform
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 16148 /F to stop it.
+[?25h
